@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
     "outDir": "./dist",
-    "module": "CommonJS",
+    "module": "ESNext",
     "target": "esnext",
     "lib": ["esnext", "webworker"],
     "moduleResolution": "node",
     "sourceMap": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "strict": true,
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist", "test"]

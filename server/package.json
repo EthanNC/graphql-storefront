@@ -4,14 +4,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "wrangler dev",
+    "start": "wrangler dev --local",
     "build": "wrangler publish",
     "check": "tsc --pretty --noEmit",
     "generate": "drizzle-kit generate:pg --out src/db/migrations --schema src/db/schema.ts",
     "migrate": "ts-node -r dotenv/config src/db/migrate"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^0.4.3",
     "@paralleldrive/cuid2": "^2.2.0",
+    "@pothos/core": "^3.30.0",
     "drizzle-orm": "^0.25.4",
     "garph": "^0.4.3",
     "graphql": "16.3.0",
@@ -26,6 +28,6 @@
     "service-worker-mock": "2.0.5",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
-    "wrangler": "^2.1.12"
+    "wrangler": "^2.6.2"
   }
 }

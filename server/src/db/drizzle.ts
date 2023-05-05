@@ -1,13 +1,28 @@
-import { drizzle } from "drizzle-orm/node-postgres";
-import { Pool } from "pg";
-import * as dotenv from "dotenv";
-dotenv.config();
+import { config } from "dotenv";
+import { drizzle } from "drizzle-orm/neon-serverless";
+import { InferModel, eq } from "drizzle-orm";
+import { Client } from "@neondatabase/serverless";
+
 import { users } from "./schema";
 
-console.log("Connecting to database...", process.env.DATABASE_URL);
+config({ path: ".dev.vars" });
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+if (!process.env.DATABASE_URL) {
+  throw new Error("DATABASE_URL is not set");
+}
 
-export const db = drizzle(pool);
+const client = new Client(process.env.DATABASE_URL);
+
+export const db = drizzle(client);
+
+export type User = InferModel<typeof users>;
+
+export const fromID = (id: number) =>
+  db.transaction(async (tx) => {
+    return await tx
+      .select()
+      .from(users)
+      .where(eq(users.id, id))
+      .execute()
+      .then((rows) => rows[0]);
+  });
